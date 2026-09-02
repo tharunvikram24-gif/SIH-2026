@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sovereign Workbench — Frontend
 
 An operations console for an **on-premise, air-gapped agentic AI** (SIH26117 · Mangalore Refinery & Petrochemicals). It's designed to make one thing obvious to a judge or an auditor: the agent does real, multi-step work **and nothing leaves the box**.
@@ -117,3 +118,6 @@ Best case, send me your FastAPI `openapi.json` (or the event shapes) and this be
 The look is grounded in **refinery DCS/HMI instrumentation**, not the generic dark-hacker theme: a deep petrol-graphite panel, an instrument-amber brand, and a **signal palette that carries meaning** — green ALLOW, red DENY, cyan telemetry, violet routing. Colour is information here. Motion is spent in one place (the orchestrated run), monospace is used only for real machine data, and everything the agent claims is shown as a count, a hash or an egress verdict rather than asserted.
 
 Accessibility: keyboard focus is visible, `prefers-reduced-motion` disables animation, and the layout is responsive down to a single column.
+=======
+# SIH-2026
+>>>>>>> abf692689b11786ef5f0611c34dd87d80915a5d0
