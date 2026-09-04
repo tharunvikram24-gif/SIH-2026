@@ -6,13 +6,18 @@ import { ChatInput } from '../components/ChatInput'
 import { CapabilityCards } from '../components/CapabilityCards'
 import { SamplePrompts } from '../components/SamplePrompts'
 import { WorkflowRail } from '../components/WorkflowRail'
+import { TaskSelector } from '../components/TaskSelector'
+import { ProcessingState } from '../components/ProcessingState'
 import { Hexagon } from 'lucide-react'
 
 export default function ChatPage() {
   const messages = useStore((s) => s.messages)
+  const selectedTask = useStore((s) => s.selectedTask)
+  const processingStage = useStore((s) => s.processingStage)
+  const processingError = useStore((s) => s.processingError)
   const endRef = useRef<HTMLDivElement>(null)
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
-  const send = (t: string) => runAgent(t)
+  const send = (t: string) => runAgent(t, selectedTask)
   const lastUser = [...messages].reverse().find((m) => m.role === 'user')
 
   return (
@@ -33,14 +38,16 @@ export default function ChatPage() {
           ) : (
             <div className="max-w-3xl mx-auto flex flex-col gap-5 pt-2 pb-4">
               {messages.map((m) => (
-                <Message key={m.id} m={m} onRegenerate={lastUser ? () => runAgent(lastUser.text) : undefined} />
+                <Message key={m.id} m={m} onRegenerate={lastUser ? () => runAgent(lastUser.text, selectedTask) : undefined} />
               ))}
+              {(processingStage || processingError) && <ProcessingState />}
               <div ref={endRef} />
             </div>
           )}
         </div>
         <div className="sticky bottom-0 pt-3 bg-gradient-to-t from-navy via-navy to-transparent">
           <div className="max-w-3xl mx-auto">
+            <TaskSelector />
             <ChatInput onSend={send} />
             <div className="text-center font-mono text-[10px] text-faint mt-2">All processing is local · 0 KB leaves this system</div>
           </div>

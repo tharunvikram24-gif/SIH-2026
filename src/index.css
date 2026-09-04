@@ -2,14 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme tokens (RGB triplets so Tailwind's /opacity modifiers keep working). */
+:root{
+  --c-navy: 247 246 242;
+  --c-bg2: 239 238 233;
+  --c-panel: 255 255 255;
+  --c-raise: 241 239 234;
+  --c-edge: 232 230 223;
+  --c-edge2: 218 215 206;
+  --c-ink: 20 20 19;
+  --c-mut: 107 105 100;
+  --c-faint: 154 150 141;
+  --c-teal: 107 55 29;
+  --c-tealb: 122 66 37;
+  --c-amber: 139 90 60;
+  --c-cyan: 79 40 23;
+  --c-grn: 75 122 70;
+  --c-red: 176 70 62;
+}
+[data-theme='dark']{
+  --c-navy: 26 25 23;
+  --c-bg2: 33 31 28;
+  --c-panel: 38 36 33;
+  --c-raise: 46 43 39;
+  --c-edge: 58 55 51;
+  --c-edge2: 74 69 63;
+  --c-ink: 242 239 234;
+  --c-mut: 179 174 166;
+  --c-faint: 122 117 109;
+  --c-teal: 185 122 78;
+  --c-tealb: 201 138 90;
+  --c-amber: 214 162 114;
+  --c-cyan: 169 117 74;
+  --c-grn: 111 168 104;
+  --c-red: 224 104 92;
+}
+
 html,body,#root{ height:100%; }
+html{ color-scheme:light; }
+html[data-theme='dark']{ color-scheme:dark; }
 body{
   margin:0;
-  background:#F7F6F2;
-  color:#141413;
+  background: rgb(var(--c-navy));
+  color: rgb(var(--c-ink));
   font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   letter-spacing:-0.005em;
   -webkit-font-smoothing:antialiased;
+  transition: background-color .25s ease, color .25s ease;
 }
 
 @layer components{
@@ -29,20 +68,20 @@ body{
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .pulse{ animation:pulse 1.7s ease-in-out infinite; }
 @keyframes spin{to{transform:rotate(360deg)}}
-.spin{ width:12px;height:12px;border-radius:50%;border:2px solid #E3E0D8;border-top-color:#8B5A3C;animation:spin .7s linear infinite; }
+.spin{ width:12px;height:12px;border-radius:50%;border:2px solid rgb(var(--c-edge2));border-top-color:rgb(var(--c-amber));animation:spin .7s linear infinite; }
 @keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .fadeup{ animation:fadeup .32s ease; }
 @keyframes shimmer{0%{background-position:-200px 0}100%{background-position:200px 0}}
 .shimmer{ background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent); background-size:200px 100%; animation:shimmer 1.2s linear infinite; }
 @keyframes blink{50%{opacity:0}}
-.caret{ display:inline-block;width:7px;height:15px;background:#8B5A3C;vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite; }
+.caret{ display:inline-block;width:7px;height:15px;background:rgb(var(--c-amber));vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite; }
 /* voice "listening" equaliser */
 .eq{ display:inline-flex; align-items:flex-end; gap:2px; height:12px; }
-.eq span{ width:2px; background:#8B5A3C; border-radius:2px; height:3px; animation:eq 1s ease-in-out infinite; }
+.eq span{ width:2px; background:rgb(var(--c-amber)); border-radius:2px; height:3px; animation:eq 1s ease-in-out infinite; }
 .eq span:nth-child(2){ animation-delay:.15s } .eq span:nth-child(3){ animation-delay:.3s } .eq span:nth-child(4){ animation-delay:.45s }
 @keyframes eq{0%,100%{height:3px}50%{height:12px}}
 
 ::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-thumb{background:#DAD7CE;border-radius:6px}
+::-webkit-scrollbar-thumb{background:rgb(var(--c-edge2));border-radius:6px}
 ::-webkit-scrollbar-track{background:transparent}
 @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }

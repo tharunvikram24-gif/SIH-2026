@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store'
 import { Chip, StatusDot } from './ui'
+import { ThemeToggle } from './ThemeToggle'
+import { SovereigntyBadge } from './SovereigntyBadge'
 import { Menu, ShieldCheck, Settings, User, Bell, HelpCircle, LogOut } from 'lucide-react'
 
 const titles: Record<string, { t: string; crumb: string }> = {
@@ -32,7 +34,9 @@ export function TopHeader({ route }: { route: string }) {
       <div className="ml-auto flex items-center gap-2.5">
         <span className="hidden sm:inline-flex chip text-mut border-edge bg-transparent items-center gap-1.5"><ShieldCheck size={12} /> ON-PREMISE</span>
         <span className="inline-flex chip text-grn border-grn/40 bg-grn/10 items-center gap-1.5"><StatusDot tone="grn" pulse /> SECURE</span>
+        <span className="hidden md:inline-flex"><SovereigntyBadge /></span>
 
+        <ThemeToggle />
         {/* gear — same destination as the Settings nav item */}
         <button onClick={() => go('/settings')} title="Settings" className="btn btn-ghost px-2"><Settings size={17} /></button>
 

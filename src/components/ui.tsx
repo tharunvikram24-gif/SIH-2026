@@ -1,4 +1,6 @@
 import { ReactNode } from 'react'
+import type { ConfidenceLevel } from '../types'
+import { CheckCircle2, AlertTriangle, HelpCircle } from 'lucide-react'
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
   return <div className={'card ' + className}>{children}</div>
@@ -20,4 +22,21 @@ export function Chip({ tone = 'mut', children }: { tone?: 'teal' | 'cyan' | 'amb
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return <div className="klbl mb-2">{children}</div>
+}
+
+// Never render a bare, unqualified "confident" state for review/low results —
+// the label and icon always make the verification status explicit.
+const CONFIDENCE_MAP: Record<ConfidenceLevel, { label: string; tone: 'grn' | 'amber' | 'red'; icon: any }> = {
+  high: { label: 'High Confidence', tone: 'grn', icon: CheckCircle2 },
+  review: { label: 'Review Recommended', tone: 'amber', icon: AlertTriangle },
+  low: { label: 'Low Confidence / Unable to Verify', tone: 'red', icon: HelpCircle },
+}
+
+export function ConfidenceBadge({ level }: { level: ConfidenceLevel }) {
+  const c = CONFIDENCE_MAP[level]
+  return (
+    <Chip tone={c.tone}>
+      <span className="inline-flex items-center gap-1"><c.icon size={12} className="shrink-0" /> {c.label}</span>
+    </Chip>
+  )
 }

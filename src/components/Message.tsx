@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Msg } from '../types'
 import { Chip, StatusDot } from './ui'
+import { ResultCard } from './ResultCard'
 import { Copy, RefreshCw, FileSearch, Download, ChevronDown, Hexagon } from 'lucide-react'
 
 export function Message({ m, onRegenerate }: { m: Msg; onRegenerate?: () => void }) {
@@ -55,6 +56,8 @@ export function Message({ m, onRegenerate }: { m: Msg; onRegenerate?: () => void
             }} />
           </div>
         )}
+
+        {!m.streaming && m.result && <ResultCard result={m.result} taskType={m.taskType} />}
       </div>
     </div>
   )

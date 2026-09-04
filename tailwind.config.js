@@ -4,25 +4,28 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Warm Claude-inspired palette (light)
-        navy: '#F7F6F2',   // page background
-        bg2: '#EFEEE9',    // sidebar
-        panel: '#FFFFFF',  // cards / input surfaces
-        raise: '#F1EFEA',  // hover / secondary surface
-        edge: '#E8E6DF',   // borders
-        edge2: '#DAD7CE',  // stronger borders
-        ink: '#141413',    // primary text
-        mut: '#6B6964',    // secondary text
-        faint: '#9A968D',  // muted text
-        teal: '#6B371D',   // primary accent (buttons)
-        tealb: '#7A4225',  // hover / active
-        amber: '#8B5A3C',  // active accent (light brown)
-        cyan: '#4F2817',   // dark brown -> decorative icon accent
-        blue: '#6B6964',   // neutral
-        grn: '#4B7A46',    // muted status-ok green (readable on light)
-        red: '#B0463E',    // muted danger (readable on light)
+        // Theme tokens — values come from CSS variables in src/index.css so a single
+        // data-theme attribute swap re-themes every existing utility class (light/dark).
+        navy: 'rgb(var(--c-navy) / <alpha-value>)',     // page background
+        bg2: 'rgb(var(--c-bg2) / <alpha-value>)',       // sidebar
+        panel: 'rgb(var(--c-panel) / <alpha-value>)',   // cards / input surfaces
+        raise: 'rgb(var(--c-raise) / <alpha-value>)',   // hover / secondary surface
+        edge: 'rgb(var(--c-edge) / <alpha-value>)',     // borders
+        edge2: 'rgb(var(--c-edge2) / <alpha-value>)',   // stronger borders
+        ink: 'rgb(var(--c-ink) / <alpha-value>)',       // primary text
+        mut: 'rgb(var(--c-mut) / <alpha-value>)',       // secondary text
+        faint: 'rgb(var(--c-faint) / <alpha-value>)',   // muted text
+        teal: 'rgb(var(--c-teal) / <alpha-value>)',     // primary accent (buttons)
+        tealb: 'rgb(var(--c-tealb) / <alpha-value>)',   // hover / active
+        amber: 'rgb(var(--c-amber) / <alpha-value>)',   // active accent (light brown)
+        cyan: 'rgb(var(--c-cyan) / <alpha-value>)',     // dark brown -> decorative icon accent
+        blue: 'rgb(var(--c-mut) / <alpha-value>)',      // neutral
+        grn: 'rgb(var(--c-grn) / <alpha-value>)',       // muted status-ok green (readable on light+dark)
+        red: 'rgb(var(--c-red) / <alpha-value>)',       // muted danger (readable on light+dark)
         // reference tokens (available if needed)
-        cream: '#F7F6F2', beige: '#EFEEE9', surface: '#E8E6DF',
+        cream: 'rgb(var(--c-navy) / <alpha-value>)',
+        beige: 'rgb(var(--c-bg2) / <alpha-value>)',
+        surface: 'rgb(var(--c-edge) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['"IBM Plex Sans"', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],

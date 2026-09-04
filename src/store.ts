@@ -1,8 +1,23 @@
 import { create } from 'zustand'
-import type { Msg, Step, Doc, AuditRow } from './types'
+import type { Msg, Step, Doc, AuditRow, TaskType } from './types'
 
 let id = 1
 export const nid = () => id++
+
+// --- theme (persisted, applied to <html data-theme> so CSS vars re-theme everything) ---
+type Theme = 'light' | 'dark'
+const THEME_KEY = 'mrpl-theme'
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light'
+  const saved = window.localStorage.getItem(THEME_KEY)
+  if (saved === 'light' || saved === 'dark') return saved
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+const applyTheme = (t: Theme) => {
+  if (typeof document !== 'undefined') document.documentElement.setAttribute('data-theme', t)
+}
+const initialTheme = getInitialTheme()
+applyTheme(initialTheme)
 
 const baseSteps = (): Step[] => [
   { key: 'router', label: 'Task Router', sub: 'Classify incoming task', status: 'pending' },
@@ -56,6 +71,12 @@ export interface Store {
   activeConvId: number
   user: typeof seedUser
 
+  // task selector / processing state / theme — additive, do not affect existing flows
+  theme: Theme
+  selectedTask: TaskType | null
+  processingStage: string | null
+  processingError: string | null
+
   setRoute: (r: string) => void
   newConversation: () => void
   loadConversation: (id: number) => void
@@ -75,6 +96,12 @@ export interface Store {
   removeAttachment: (n: string) => void
   setUploadOpen: (v: boolean) => void
   setSidebar: (v: boolean) => void
+
+  setTheme: (t: Theme) => void
+  toggleTheme: () => void
+  setSelectedTask: (t: TaskType | null) => void
+  setProcessingStage: (s: string | null) => void
+  setProcessingError: (e: string | null) => void
 }
 
 const idleRouter = () => ({ task: '—', model: 'Local LLM 8B', status: 'idle', active: false })
@@ -95,6 +122,11 @@ export const useStore = create<Store>((set, get) => ({
   conversations: [],
   activeConvId: nid(),
   user: seedUser,
+
+  theme: initialTheme,
+  selectedTask: null,
+  processingStage: null,
+  processingError: null,
 
   setRoute: (r) => set({ route: r }),
 
@@ -127,6 +159,12 @@ export const useStore = create<Store>((set, get) => ({
   removeAttachment: (n) => set((s) => ({ attachments: s.attachments.filter((x) => x !== n) })),
   setUploadOpen: (v) => set({ uploadOpen: v }),
   setSidebar: (v) => set({ sidebarOpen: v }),
+
+  setTheme: (t) => { applyTheme(t); if (typeof window !== 'undefined') window.localStorage.setItem(THEME_KEY, t); set({ theme: t }) },
+  toggleTheme: () => get().setTheme(get().theme === 'dark' ? 'light' : 'dark'),
+  setSelectedTask: (t) => set({ selectedTask: t }),
+  setProcessingStage: (s) => set({ processingStage: s }),
+  setProcessingError: (e) => set({ processingError: e }),
 }))
 
 export { baseSteps }
